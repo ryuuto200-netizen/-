@@ -1,8 +1,8 @@
 /* SKYLINE ATLAS — all bearings are clockwise from true north. */
 const ORIGIN = { lat: 35.710085, lon: 139.810715 };
 const PHOTO = [
-  { id:'clear-2016', name:'南西 · 東京タワーと隅田川', short:'南西', degree:250, year:2016, author:'louisredon', license:'CC0', file:'Cityscape_of_Tokyo,_view_from_Tokyo_Skytree_(2016-01-04_by_louisredon_@Pixabay_1141165).jpg', alt:'スカイツリーから東京タワーと隅田川方面を望む2016年の実写' },
-  { id:'clear-2014', name:'南西 · 両国と都心', short:'南西', degree:240, year:2014, author:'Takeishiwataru', license:'CC0', file:'Cityscape_of_Tokyo,_view_from_Tokyo_Skytree_(2014-11-10_by_Takeishiwataru_@Pixabay_1272392).jpg', alt:'スカイツリーから両国と都心方面を望む2014年の実写' }
+  { id:'clear-2016', name:'南西 · 両国と隅田川', short:'南西', degree:235, year:2016, author:'louisredon', license:'CC0', file:'Cityscape_of_Tokyo,_view_from_Tokyo_Skytree_(2016-01-04_by_louisredon_@Pixabay_1141165).jpg', alt:'スカイツリーから両国・隅田川方面を望む2016年の実写' },
+  { id:'clear-2014', name:'南西 · 両国と都心', short:'南西', degree:230, year:2014, author:'Takeishiwataru', license:'CC0', file:'Cityscape_of_Tokyo,_view_from_Tokyo_Skytree_(2014-11-10_by_Takeishiwataru_@Pixabay_1272392).jpg', alt:'スカイツリーから両国と都心方面を望む2014年の実写' }
 ];
 // Landmark positions are representative points. They are maintained separately
 // from the photographs and do not assert that a feature is visible in a photo.
@@ -47,14 +47,14 @@ const $={viewer:el('viewer'),photoLayer:el('photoLayer'),viewPhoto:el('viewPhoto
 const directions=['北','北北東','北東','東北東','東','東南東','南東','南南東','南','南南西','南西','西南西','西','西北西','北西','北北西'];
 const english=['NORTH','NORTH · NORTHEAST','NORTHEAST','EAST · NORTHEAST','EAST','EAST · SOUTHEAST','SOUTHEAST','SOUTH · SOUTHEAST','SOUTH','SOUTH · SOUTHWEST','SOUTHWEST','WEST · SOUTHWEST','WEST','WEST · NORTHWEST','NORTHWEST','NORTH · NORTHWEST'];
 const initial=new URLSearchParams(location.search);
-let heading=Number.isFinite(Number(initial.get('bearing')))&&initial.has('bearing')?norm(Number(initial.get('bearing'))):250;
+let heading=Number.isFinite(Number(initial.get('bearing')))&&initial.has('bearing')?norm(Number(initial.get('bearing'))):235;
 let mode=initial.get('mode')==='map'?'map':'photo';
 let selected=SPOTS.find(s=>s.id===initial.get('spot'))||SPOTS.find(s=>s.id==='tower');
 let currentPhotoId='';let map=null;let mapReady=false;let mapFailed=false;let gesture=null;let toastTimer;
 const photoPath=p=>'https://commons.wikimedia.org/wiki/Special:FilePath/'+encodeURIComponent(p.file)+'?width=1920';
 const photoSource=p=>'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent(p.file);
 const fmtDistance=km=>km<10?km.toFixed(1):Math.round(km).toString();
-function nearestPhoto(){const list=PHOTO.map(p=>({p,d:angleDiff(heading,p.degree)})).sort((a,b)=>a.d-b.d);return list[0].d<=23?list[0].p:null}
+function nearestPhoto(){const list=PHOTO.map(p=>({p,d:angleDiff(heading,p.degree)})).sort((a,b)=>a.d-b.d);return list[0].d<=13?list[0].p:null}
 function compassMarkup(){
   const rings=[48,84,114].map(r=>`<circle cx="130" cy="130" r="${r}" fill="none" stroke="rgba(213,236,224,.15)" stroke-width="1"/>`).join('');
   const major=[['N',0],['E',90],['S',180],['W',270]].map(([t,a])=>{let x=130+Math.sin(radians(a))*110,y=130-Math.cos(radians(a))*110;return `<text x="${x}" y="${y+3}" text-anchor="middle" fill="${a===0?'#c9e895':'#9cb4ae'}" font-size="11" font-family="sans-serif" font-weight="bold">${t}</text>`}).join('');

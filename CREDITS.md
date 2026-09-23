@@ -4,10 +4,10 @@
 
 | 写真 | 撮影者 | 撮影年 | 権利状態 | 原作品 |
 | --- | --- | --- | --- | --- |
-| 東京タワー・隅田川方向 | louisredon | 2016 | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) | [スカイツリーからの街並み（2016）](https://commons.wikimedia.org/wiki/File:Cityscape_of_Tokyo,_view_from_Tokyo_Skytree_(2016-01-04_by_louisredon_@Pixabay_1141165).jpg) |
+| 両国・隅田川方向 | louisredon | 2016 | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) | [スカイツリーからの街並み（2016）](https://commons.wikimedia.org/wiki/File:Cityscape_of_Tokyo,_view_from_Tokyo_Skytree_(2016-01-04_by_louisredon_@Pixabay_1141165).jpg) |
 | 両国・都心方向 | Takeishiwataru | 2014 | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) | [スカイツリーからの街並み（2014）](https://commons.wikimedia.org/wiki/File:Cityscape_of_Tokyo,_view_from_Tokyo_Skytree_(2014-11-10_by_Takeishiwataru_@Pixabay_1272392).jpg) |
 
-写真は Wikimedia Commons の公開画像を読み込みます。画面比率に応じて表示部分が変わります。方角は写る東京タワーや両国国技館の位置関係から推定した概略で、カメラの視野角や各画素の方位は較正していません。
+写真は Wikimedia Commons の公開画像を読み込みます。画面比率に応じて表示部分が変わります。方角は写る両国国技館などの位置関係から推定した概略で、カメラの視野角や各画素の方位は較正していません。
 
 ## 地理・施設
 

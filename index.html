@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#08151c">
+  <meta name="description" content="東京スカイツリー天望デッキを基点に、実写資料と地図で東京の方角・距離を探索する360°アトラス。">
+  <title>SKYLINE ATLAS | 東京スカイツリーから見渡す東京</title>
+  <link rel="preconnect" href="https://tiles.openfreemap.org">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
+  <link rel="stylesheet" href="./style.css">
+  <script defer src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script>
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="SKYLINE ATLAS トップへ"><span class="brand-mark">✳</span><span>SKYLINE<br><strong>ATLAS</strong></span></a>
+    <span class="header-label">TOKYO SKYTREE · OBSERVATION STUDY</span>
+    <a class="header-link" href="#about">このアトラスについて <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main id="top">
+    <section class="intro" aria-labelledby="title">
+      <div class="intro-copy">
+        <p class="eyebrow"><span class="eyebrow-line"></span> 35.710085° N / 139.810715° E</p>
+        <h1 id="title">東京を、<em>360°</em>。</h1>
+        <p class="lead">スカイツリーから、街の輪郭をたどる。<br>実際の座標に基づいた方角と距離、そして展望台からの記録写真をひとつの画面に。</p>
+      </div>
+      <div class="intro-meta"><span class="ring-icon" aria-hidden="true">↗</span><span>OBSERVATION POINT<br><strong>天望デッキ / 地上約350m</strong></span></div>
+    </section>
+
+    <section class="atlas" aria-label="360度景観アトラス">
+      <div class="atlas-toolbar">
+        <div class="toolbar-title"><span class="pulse"></span> <span>LIVE GEOGRAPHY</span><span class="toolbar-divider"></span><span>ARCHIVAL PHOTOGRAPHY</span></div>
+        <div class="mode-switch" role="group" aria-label="表示モード">
+          <button id="photoMode" class="mode-button active" type="button" aria-pressed="true">写真資料</button>
+          <button id="mapMode" class="mode-button" type="button" aria-pressed="false">地図で見る</button>
+        </div>
+      </div>
+
+      <div class="atlas-grid">
+        <div class="viewer" id="viewer" tabindex="0" aria-label="左右にドラッグまたは矢印キーで向きを変える">
+          <div id="map" class="map-layer" role="img" aria-label="東京スカイツリー周辺の地図"></div>
+          <div id="mapFailure" class="map-failure" hidden>地図を読み込めませんでした。方角と距離の案内はそのまま利用できます。</div>
+          <div class="photo-layer" id="photoLayer">
+            <img id="viewPhoto" src="https://commons.wikimedia.org/wiki/Special:FilePath/Cityscape_of_Tokyo%2C_view_from_Tokyo_Skytree_%282016-01-04_by_louisredon_%40Pixabay_1141165%29.jpg?width=1920" alt="東京スカイツリーから東京タワーと隅田川方向を望む2016年の実写" fetchpriority="high">
+            <div class="photo-vignette"></div>
+          </div>
+          <div class="viewer-top">
+            <div class="viewer-chip"><span class="viewer-chip-dot"></span><span id="mediaKind">実写資料 · 西南西</span></div>
+            <button id="fullscreen" class="glass-button" type="button" aria-label="全画面表示">⛶ <span>全画面</span></button>
+          </div>
+          <div class="viewer-heading">
+            <div class="heading-vertical">THE CITY FROM ABOVE / TOKYO, JAPAN</div>
+            <div class="heading-readout"><span id="directionRoman">WEST · SOUTHWEST</span><strong id="degreeLarge">250<span>°</span></strong><span id="directionJapanese">西南西の方角</span></div>
+          </div>
+          <div class="viewer-bottom">
+            <div class="photo-caption"><span class="caption-label" id="photoLabel">PHOTO 01 / 2016</span><span id="photoNotice">実際の景色。写真の画角は方位計に連動しません。</span></div>
+            <div class="viewer-hint">↔ <span>ドラッグして方角を変える</span></div>
+          </div>
+          <div class="crosshair" aria-hidden="true"><span></span><span></span></div>
+        </div>
+
+        <aside class="side-panel" aria-label="方角と目的地">
+          <div class="side-head"><span class="section-index">01 / ORIENTATION</span><span class="side-head-symbol">✳</span></div>
+          <h2>いま見ている方角</h2>
+          <div class="compass-wrap"><svg id="compass" viewBox="0 0 260 260" role="img" aria-label="方位磁針とランドマークの配置"></svg><div class="compass-center"><span>FROM</span><strong>SKYTREE</strong></div></div>
+          <div class="heading-control"><label for="bearing"><span>方位角</span><strong id="degreeSmall">250°</strong></label><input id="bearing" type="range" min="0" max="359" step="1" value="250" aria-label="方位角を0度から359度の範囲で変更"></div>
+          <div class="cardinal-buttons" role="group" aria-label="主要方角"><button type="button" data-bearing="0">N <span>北</span></button><button type="button" data-bearing="90">E <span>東</span></button><button type="button" data-bearing="180">S <span>南</span></button><button type="button" data-bearing="270">W <span>西</span></button></div>
+          <p class="side-note">方位は真北基準。写真の向きは写るランドマークから推定した概略です。</p>
+        </aside>
+      </div>
+
+      <div class="compass-strip" aria-label="360度の方位目盛り"><div id="bearingTicks" class="bearing-ticks"></div><div class="strip-pointer" aria-hidden="true"></div><div class="strip-controls"><button id="rotateLeft" type="button" aria-label="左に15度回転">←</button><span>DRAG TO EXPLORE · 0–359°</span><button id="rotateRight" type="button" aria-label="右に15度回転">→</button></div></div>
+    </section>
+
+    <section class="discovery" aria-labelledby="discoverTitle">
+      <div class="discovery-heading"><div><p class="section-index">02 / FIND YOUR VIEW</p><h2 id="discoverTitle">この方向に、<em>何がある？</em></h2><p>ランドマークを選ぶと、スカイツリーからの方位と直線距離を表示します。</p></div><div class="search-wrap"><label for="spotSearch">スポットを探す</label><input id="spotSearch" type="search" placeholder="例：東京タワー、富士山" autocomplete="off"></div></div>
+      <div class="discovery-grid">
+        <div class="spot-list" id="spotList" aria-live="polite"></div>
+        <article class="selected-spot" id="selectedSpot" aria-live="polite"></article>
+      </div>
+    </section>
+
+    <section class="photo-library" aria-labelledby="libraryTitle">
+      <div class="library-heading"><div><p class="section-index">03 / REAL VIEWS</p><h2 id="libraryTitle">実際の景色を、<em>資料でたどる。</em></h2></div><p>同じ写真から作った全周画像ではありません。南西方向の過去の実写資料です。</p></div>
+      <div class="photo-cards" id="photoCards"></div>
+    </section>
+
+    <section id="about" class="about" aria-labelledby="aboutTitle"><div class="about-mark">↗</div><div><p class="section-index">04 / ABOUT THIS PROJECT</p><h2 id="aboutTitle">景色の「本当」を大切に。</h2><p>地図上の位置関係・方位・直線距離は座標から計算しています。写真は過去の撮影記録であり、地図上の街並みも建物や地形を完全再現するものではありません。天候、建物による遮蔽、地球の曲率の影響で、地図に載る場所が実際に見えるとは限りません。</p><div class="about-facts"><div><strong>350<span>m</span></strong><small>基準の展望高度</small></div><div><strong>360<span>°</span></strong><small>地理的に探索できる方位</small></div><div><strong id="spotCount">—</strong><small>探索できるランドマーク</small></div></div></div></section>
+  </main>
+
+  <footer><div class="footer-brand">SKYLINE ATLAS <span>↗</span></div><div class="footer-links"><a href="https://www.tokyo-skytree.jp/about/outline/" target="_blank" rel="noopener noreferrer">展望台の公式情報</a><a href="https://openfreemap.org/" target="_blank" rel="noopener noreferrer">OpenFreeMap</a><a href="./CREDITS.md" target="_blank" rel="noopener noreferrer">写真・データの出典</a></div><small>非公式の地理・写真アトラス。東京スカイツリー運営者による提供ではありません。</small></footer>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
